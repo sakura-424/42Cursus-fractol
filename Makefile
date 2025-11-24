@@ -6,13 +6,13 @@
 #    By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/23 07:30:10 by skatsuya          #+#    #+#              #
-#    Updated: 2025/11/23 08:15:43 by skatsuya         ###   ########.fr        #
+#    Updated: 2025/11/25 01:38:13 by skatsuya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft
+CFLAGS = -Wall -Wextra -Werror -I libft -O2
 
 # MLX_FLAGS = -I minilibx_linux -L minilibx_linux -lmlx -lXext -lX11 -lm
 
