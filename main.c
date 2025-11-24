@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/23 08:10:54 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/25 00:46:58 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int keycode(int keycode, t_vars *vars)
 	draw_fractol(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	printf("Pressed key: %d\n", keycode);
+	return (0);
+}
+
+int close_window(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(0);
 	return (0);
 }
 
@@ -170,7 +177,7 @@ int main(int argc, char **argv)
 		print_help();
 		return (1);
 	}
-	vars.win = mlx_new_window(vars.mlx, 800, 800, "Test");
+	vars.win = mlx_new_window(vars.mlx, 800, 800, "fractol");
 	vars.img = mlx_new_image(vars.mlx, 800, 800);
 	vars.addr = mlx_get_data_addr(vars.img, &vars.bits_per_pixel, &vars.line_length, &vars.endian);
 
@@ -178,6 +185,7 @@ int main(int argc, char **argv)
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 
 	mlx_key_hook(vars.win, keycode, &vars);
+	mlx_hook(vars.win, 17, 0, close_window, &vars);
 	mlx_mouse_hook(vars.win, mouse_hook, &vars);
 	mlx_loop(vars.mlx);
 
