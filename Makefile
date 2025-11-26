@@ -6,39 +6,56 @@
 #    By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/23 07:30:10 by skatsuya          #+#    #+#              #
-#    Updated: 2025/11/25 01:38:13 by skatsuya         ###   ########.fr        #
+#    Updated: 2025/11/26 14:02:09 by skatsuya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft -O2
+CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx -O2
+RM = rm -rf
 
-# MLX_FLAGS = -I minilibx_linux -L minilibx_linux -lmlx -lXext -lX11 -lm
-
+# for MAC
 MLX_FLAGS = -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
+# for Linux
+# MLX_FLAGS = -I minilibx-linux -L minilibx-linux -lmlx -lXext -lX11 -lm
 LIBFT = -L libft -lft
-SRCS = main.c
-OBJS = $(SRCS:.c=.o)
+
+SRC_DIR = src
+OBJ_DIR = obj
+
+SRC_FILES = main.c \
+            user_help.c \
+            color.c \
+            draw_fractol.c \
+            events.c \
+            ft_atof.c
+
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
+
+all: $(OBJ_DIR) $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) make_libft
 	$(CC) $(OBJS) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 
-# %.o: %.c
-# 	$(CC) $(CFLAGS) -I minilibx_linux -c $< -o $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) -I minilibx -c $< -o $@
-
 make_libft:
 	make -C libft
 
-all: $(NAME)
-
 clean:
-	$(RM) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJ_DIR)
+	make clean -C libft
 
 fclean: clean
 	$(RM) $(NAME)
+	make fclean -C libft
 
 re: fclean all
+
+.PHONY: all clean fclean re
