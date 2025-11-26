@@ -6,11 +6,35 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/25 06:36:58 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:29:18 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+static void init_vars(t_vars *vars);
+static int parse_args(int argc, char **argv, t_vars *vars);
+static void init_mlx(t_vars *vars);
+
+int main(int argc, char **argv)
+{
+	t_vars vars;
+
+	init_vars(&vars);
+	if (parse_args(argc, argv, &vars) == 0)
+	{
+		print_help();
+		return (1);
+	}
+	init_mlx(&vars);
+	draw_fractol(&vars);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+	mlx_key_hook(vars.win, keycode, &vars);
+	mlx_hook(vars.win, 17, 0, close_window, &vars);
+	mlx_mouse_hook(vars.win, mouse_hook, &vars);
+	mlx_loop(vars.mlx);
+	return (0);
+}
 
 static void init_vars(t_vars *vars)
 {
@@ -55,24 +79,4 @@ static void init_mlx(t_vars *vars)
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "fractol");
 	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
-}
-
-int main(int argc, char **argv)
-{
-	t_vars vars;
-
-	init_vars(&vars);
-	if (parse_args(argc, argv, &vars) == 0)
-	{
-		print_help();
-		return (1);
-	}
-	init_mlx(&vars);
-	draw_fractol(&vars);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
-	mlx_key_hook(vars.win, keycode, &vars);
-	mlx_hook(vars.win, 17, 0, close_window, &vars);
-	mlx_mouse_hook(vars.win, mouse_hook, &vars);
-	mlx_loop(vars.mlx);
-	return (0);
 }
