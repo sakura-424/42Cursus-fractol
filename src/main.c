@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 14:29:18 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:50:40 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void init_vars(t_vars *vars);
 static int parse_args(int argc, char **argv, t_vars *vars);
 static void init_mlx(t_vars *vars);
+static int is_valid_double(char *str);
 
 int main(int argc, char **argv)
 {
@@ -55,11 +56,8 @@ static int parse_args(int argc, char **argv, t_vars *vars)
 		return (0);
 	if (!ft_strcmp(argv[1], "julia"))
 	{
-		if (argc < 4)
-		{
-			print_help();
-			return (1);
-		}
+		if (argc < 4 || !is_valid_double(argv[2]) || !is_valid_double(argv[3]))
+			return (0);
 		vars->type = 1;
 		vars->julia.x = ft_atof(argv[2]);
 		vars->julia.y = ft_atof(argv[3]);
@@ -79,4 +77,30 @@ static void init_mlx(t_vars *vars)
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "fractol");
 	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
+}
+
+static int is_valid_double(char *str)
+{
+	int i;
+	int dot_count;
+
+	i = 0;
+	dot_count = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '.')
+		{
+			dot_count++;
+			if (dot_count > 1)
+				return (0);
+		}
+		else if(!ft_isdigit(str[i]))
+			return(0);
+		i++;
+	}
+	return (1);
 }
