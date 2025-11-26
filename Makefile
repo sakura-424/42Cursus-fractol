@@ -6,13 +6,13 @@
 #    By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/23 07:30:10 by skatsuya          #+#    #+#              #
-#    Updated: 2025/11/26 14:02:09 by skatsuya         ###   ########.fr        #
+#    Updated: 2025/11/27 03:03:20 by skatsuya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx -O2
+CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx -Ofast
 RM = rm -rf
 
 # for MAC
