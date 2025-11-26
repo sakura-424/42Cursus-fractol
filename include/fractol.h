@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:06:01 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/25 06:31:40 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:01:35 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define MAX_ITER 100
 # define JULIA 1
 # define MANDELBROT 0
+# define TRUE 1
+# define FALSE 0
 
 typedef struct s_complex
 {
