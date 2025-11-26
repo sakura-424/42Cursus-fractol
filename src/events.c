@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 06:30:15 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/25 06:30:33 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:09:32 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int keycode(int keycode, t_vars *vars)
 		vars->shift_x = vars->shift_x + 0.5 * vars->zoom;
 	if (keycode == 125)
 		vars->shift_y = vars->shift_y + 0.5 * vars->zoom;
-	draw_fractol(vars);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	vars->needs_render = 1;
 	printf("Pressed key: %d\n", keycode);
 	return (0);
 }
@@ -36,6 +35,7 @@ int close_window(t_vars *vars)
 	mlx_destroy_window(vars->mlx, vars->win);
 	// mlx_destroy_display(vars->mlx);
 	// free(vars->mlx);
+	free(vars->iterations);
 	exit(0);
 	return (0);
 }
@@ -48,7 +48,23 @@ int mouse_hook(int button, int x, int y, t_vars *vars)
 		vars->zoom = vars->zoom * 0.9;
 	else if (button == 5)
 		vars->zoom = vars->zoom * 1.1;
-	draw_fractol(vars);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	vars->needs_render = 1;
+	return (0);
+}
+
+int game_loop(t_vars *vars)
+{
+	struct timeval tv;
+	long current_time;
+
+	gettimeofday(&tv, NULL);
+	current_time = tv.tv_usec / 1000;
+	vars->color_shift = (current_time % 255);
+	if (vars->needs_render)
+	{
+		calculate_fractol(vars);
+		vars->needs_render = 0;
+	}
+	render_fractol(vars);
 	return (0);
 }

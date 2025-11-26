@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 15:12:07 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:57:31 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,18 @@ int main(int argc, char **argv)
 	init_vars(&vars);
 	if (parse_args(argc, argv, &vars) == FALSE)
 	{
+		if (vars.iterations)
+			free(vars.iterations);
 		print_help();
 		return (1);
 	}
 	init_mlx(&vars);
-	draw_fractol(&vars);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+	// calculate_fractol(&vars);
+	// render_fractol(&vars);
 	mlx_key_hook(vars.win, keycode, &vars);
 	mlx_hook(vars.win, 17, 0, close_window, &vars);
 	mlx_mouse_hook(vars.win, mouse_hook, &vars);
+	mlx_loop_hook(vars.mlx, game_loop, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }
@@ -48,6 +51,10 @@ static void init_vars(t_vars *vars)
 	vars->shift_y = 0.0;
 	vars->julia.x = 0.0;
 	vars->julia.y = 0.0;
+	vars->needs_render = 1;
+	vars->iterations = malloc(sizeof(int *) * WIDTH * HEIGHT);
+	if (!vars->iterations)
+		exit(1);
 }
 
 static int parse_args(int argc, char **argv, t_vars *vars)
@@ -74,6 +81,8 @@ static void init_mlx(t_vars *vars)
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 	{
+		if (vars->iterations)
+			free(vars->iterations);
 		perror("Error");
 		exit(1);
 	}

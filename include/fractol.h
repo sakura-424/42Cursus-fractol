@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:06:01 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 15:01:35 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:09:19 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <libft.h>
+#include <sys/time.h>
 
 # define WIDTH 800
 # define HEIGHT 800
@@ -29,6 +30,13 @@ typedef struct s_complex
 	double  x;
 	double  y;
 }	t_complex;
+
+typedef struct s_color
+{
+	int r;
+	int g;
+	int b;
+}	t_color;
 typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
@@ -42,6 +50,9 @@ typedef struct	s_vars {
 	double	shift_y;
 	t_complex	julia;
 	int		type;
+	int color_shift;
+	int *iterations;
+	int needs_render;
 }				t_vars;
 
 // put_color.c
@@ -51,12 +62,15 @@ void put_color(t_vars *vars, int x, int y, int color);
 void print_help(void);
 
 // draw_fractol.c
-void draw_fractol(t_vars *vars);
+// void draw_fractol(t_vars *vars);
+void calculate_fractol(t_vars *vars);
+void render_fractol(t_vars *vars);
 
 // ft_atof.c
 double ft_atof(char *str);
 
-// evenrs.c
+// events.c
 int keycode(int keycode, t_vars *vars);
 int close_window(t_vars *vars);
 int mouse_hook(int button, int x, int y, t_vars *vars);
+int game_loop(t_vars *vars);

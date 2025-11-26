@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia.c                                            :+:      :+:    :+:   */
+/*   draw_fractol.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 03:35:21 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/25 05:07:36 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:28:07 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void process_julia_pixcel(t_vars *vars, int x, int y);
-static void process_mandelbrot_pixcel(t_vars *vars, int x, int y);
+static int process_julia_pixcel(t_vars *vars, int x, int y);
+static int process_mandelbrot_pixcel(t_vars *vars, int x, int y);
 
-void draw_fractol(t_vars *vars)
+void calculate_fractol(t_vars *vars)
 {
 	int x;
 	int y;
+	int iter;
 
+	iter = 0;
 	y = 0;
 	while (y < HEIGHT)
 	{
@@ -27,16 +29,47 @@ void draw_fractol(t_vars *vars)
 		while (x < WIDTH)
 		{
 			if (vars->type == MANDELBROT)
-				process_mandelbrot_pixcel(vars, x, y);
+				iter = process_mandelbrot_pixcel(vars, x, y);
 			else if (vars->type == JULIA)
-				process_julia_pixcel(vars, x, y);
+				iter = process_julia_pixcel(vars, x, y);
+			vars->iterations[y * WIDTH + x] = iter;
 			x++;
 		}
 		y++;
 	}
 }
 
-static void process_julia_pixcel(t_vars *vars, int x, int y)
+void render_fractol(t_vars *vars)
+{
+	int x;
+	int y;
+	int iter;
+	int color;
+	t_color rgb;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			iter = vars->iterations[y * WIDTH + x];
+			if (iter == MAX_ITER)
+				color = 0x000000;
+			else
+			{
+				rgb.r = (iter * 5 + vars->color_shift) % 255;
+                color = (rgb.r << 16);
+			}
+			put_color(vars, x, y, color);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+}
+
+static int process_julia_pixcel(t_vars *vars, int x, int y)
 {
 	t_complex z;
 	double tmp_x;
@@ -52,13 +85,10 @@ static void process_julia_pixcel(t_vars *vars, int x, int y)
 		z.x = tmp_x;
 		iter++;
 	}
-	if (iter == MAX_ITER)
-		put_color(vars, x, y, 0x000000);
-	else
-		put_color(vars, x, y, (int)(z.x * z.x * z.y * z.y * 20) << 16);
+	return (iter);
 }
 
-static void process_mandelbrot_pixcel(t_vars *vars, int x, int y)
+static int process_mandelbrot_pixcel(t_vars *vars, int x, int y)
 {
 	t_complex z;
 	t_complex c;
@@ -77,8 +107,5 @@ static void process_mandelbrot_pixcel(t_vars *vars, int x, int y)
 		z.x = tmp_x;
 		iter++;
 	}
-	if (iter == MAX_ITER)
-		put_color(vars, x, y, 0x000000);
-	else
-		put_color(vars, x, y, (int)(z.x * z.x * z.y * z.y * 20) << 16);
+	return (iter);
 }
