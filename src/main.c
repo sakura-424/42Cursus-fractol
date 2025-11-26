@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 14:50:40 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:04:26 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	t_vars vars;
 
 	init_vars(&vars);
-	if (parse_args(argc, argv, &vars) == 0)
+	if (parse_args(argc, argv, &vars) == FALSE)
 	{
 		print_help();
 		return (1);
@@ -53,20 +53,20 @@ static void init_vars(t_vars *vars)
 static int parse_args(int argc, char **argv, t_vars *vars)
 {
 	if (argc < 2)
-		return (0);
+		return (FALSE);
 	if (!ft_strcmp(argv[1], "julia"))
 	{
 		if (argc < 4 || !is_valid_double(argv[2]) || !is_valid_double(argv[3]))
-			return (0);
-		vars->type = 1;
+			return (FALSE);
+		vars->type = JULIA;
 		vars->julia.x = ft_atof(argv[2]);
 		vars->julia.y = ft_atof(argv[3]);
 	}
 	else if(!ft_strcmp(argv[1], "mandelbrot"))
-		vars->type = 0;
+		vars->type = MANDELBROT;
 	else
-		return (0);
-	return (1);
+		return (FALSE);
+	return (TRUE);
 }
 
 static void init_mlx(t_vars *vars)
@@ -89,18 +89,18 @@ static int is_valid_double(char *str)
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	if (!str[i])
-		return (0);
+		return (FALSE);
 	while (str[i])
 	{
 		if (str[i] == '.')
 		{
 			dot_count++;
 			if (dot_count > 1)
-				return (0);
+				return (FALSE);
 		}
 		else if(!ft_isdigit(str[i]))
-			return(0);
+			return(FALSE);
 		i++;
 	}
-	return (1);
+	return (TRUE);
 }
