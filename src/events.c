@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 06:30:15 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 18:09:32 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 02:52:18 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,19 @@ int mouse_hook(int button, int x, int y, t_vars *vars)
 	(void)x;
 	(void)y;
 	if (button == 4)
+	{
 		vars->zoom = vars->zoom * 0.9;
+		vars->max_iter += 10;
+	}
 	else if (button == 5)
+	{
 		vars->zoom = vars->zoom * 1.1;
+		vars->max_iter -= 10;
+		if (vars->max_iter < 50)
+			vars->max_iter = 50;
+	}
+	if (vars->max_iter > 200)
+			vars->max_iter = 200;
 	vars->needs_render = 1;
 	return (0);
 }

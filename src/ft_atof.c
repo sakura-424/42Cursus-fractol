@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 05:16:11 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/25 05:26:18 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 02:55:02 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ double ft_atof(char *str)
 	double result;
 
 	i = 0;
-	sign = 1;
+	sign = 1.0;
 	result = 0.0;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			sign = -1;
+			sign = -1.0;
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
@@ -50,7 +50,7 @@ static double get_decimal(char *str)
 	div = 1.0;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		div = div * 10;
+		div = div * 10.0;
 		result = result + (str[i] - '0') / div;
 		i++;
 	}

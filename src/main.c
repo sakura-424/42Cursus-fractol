@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 17:57:31 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 02:40:35 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void init_vars(t_vars *vars)
 	vars->julia.x = 0.0;
 	vars->julia.y = 0.0;
 	vars->needs_render = 1;
+	vars->max_iter = 100;
 	vars->iterations = malloc(sizeof(int *) * WIDTH * HEIGHT);
 	if (!vars->iterations)
 		exit(1);

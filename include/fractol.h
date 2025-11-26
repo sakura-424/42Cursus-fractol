@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:06:01 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 18:09:19 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 02:59:23 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_complex
 {
 	double  x;
 	double  y;
+	double q;
 }	t_complex;
 
 typedef struct s_color
@@ -45,14 +46,15 @@ typedef struct	s_vars {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	double	zoom;
-	double	shift_x;
-	double	shift_y;
+	long double	zoom;
+	long double	shift_x;
+	long double	shift_y;
 	t_complex	julia;
 	int		type;
 	int color_shift;
 	int *iterations;
 	int needs_render;
+	int max_iter;
 }				t_vars;
 
 // put_color.c
