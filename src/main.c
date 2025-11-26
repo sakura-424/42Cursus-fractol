@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/26 15:04:26 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:12:07 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ static void init_mlx(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
+	{
+		perror("Error");
 		exit(1);
+	}
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "fractol");
 	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
