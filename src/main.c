@@ -6,7 +6,7 @@
 /*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 00:00:23 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/27 23:15:55 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 23:38:07 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ static void	init_vars(t_vars *vars)
 	vars->max_iter = 100;
 	vars->iterations = malloc(sizeof(int *) * WIDTH * HEIGHT);
 	if (!vars->iterations)
+	{
+		perror("Error");
 		exit(1);
+	}
 }
 
 static int	parse_args(int argc, char **argv, t_vars *vars)
