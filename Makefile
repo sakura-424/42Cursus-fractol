@@ -3,22 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/23 07:30:10 by skatsuya          #+#    #+#              #
-#    Updated: 2025/11/26 14:02:09 by skatsuya         ###   ########.fr        #
+#    Updated: 2025/11/27 21:27:46 by skatsuya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx -O2
+CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx-linux -O2
 RM = rm -rf
 
 # for MAC
-MLX_FLAGS = -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
-# for Linux
-# MLX_FLAGS = -I minilibx-linux -L minilibx-linux -lmlx -lXext -lX11 -lm
+# MLX_FLAGS = -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
+# # for Linux
+MLX_FLAGS = -I minilibx-linux -L minilibx-linux -lmlx -lXext -lX11 -lm
 LIBFT = -L libft -lft
 
 SRC_DIR = src
