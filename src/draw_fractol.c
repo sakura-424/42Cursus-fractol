@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia.c                                            :+:      :+:    :+:   */
+/*   draw_fractol.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 03:35:21 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/25 05:07:36 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 20:47:06 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void process_julia_pixcel(t_vars *vars, int x, int y);
-static void process_mandelbrot_pixcel(t_vars *vars, int x, int y);
+static void	process_julia_pixcel(t_vars *vars, int x, int y);
+static void	process_mandelbrot_pixcel(t_vars *vars, int x, int y);
 
-void draw_fractol(t_vars *vars)
+void	draw_fractol(t_vars *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -36,11 +36,11 @@ void draw_fractol(t_vars *vars)
 	}
 }
 
-static void process_julia_pixcel(t_vars *vars, int x, int y)
+static void	process_julia_pixcel(t_vars *vars, int x, int y)
 {
-	t_complex z;
-	double tmp_x;
-	int iter;
+	t_complex	z;
+	double		tmp_x;
+	int			iter;
 
 	z.x = (((double)x / WIDTH) * 4.0 - 2.0) * vars->zoom + vars->shift_x;
 	z.y = (((double)y / HEIGHT) * 4.0 - 2.0) * vars->zoom + vars->shift_y;
@@ -58,12 +58,12 @@ static void process_julia_pixcel(t_vars *vars, int x, int y)
 		put_color(vars, x, y, (int)(z.x * z.x * z.y * z.y * 20) << 16);
 }
 
-static void process_mandelbrot_pixcel(t_vars *vars, int x, int y)
+static void	process_mandelbrot_pixcel(t_vars *vars, int x, int y)
 {
-	t_complex z;
-	t_complex c;
-	double tmp_x;
-	int iter;
+	t_complex	z;
+	t_complex	c;
+	double		tmp_x;
+	int			iter;
 
 	z.x = 0.0;
 	z.y = 0.0;
