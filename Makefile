@@ -3,29 +3,29 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/23 07:30:10 by skatsuya          #+#    #+#              #
-#    Updated: 2025/11/27 03:03:20 by skatsuya         ###   ########.fr        #
+#    Updated: 2025/11/27 23:15:12 by skatsuya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx -Ofast
+CFLAGS = -Wall -Wextra -Werror -I libft -I include -I minilibx-linux -Ofast
 RM = rm -rf
 
 # for MAC
-MLX_FLAGS = -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
+# MLX_FLAGS = -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
 # for Linux
-# MLX_FLAGS = -I minilibx-linux -L minilibx-linux -lmlx -lXext -lX11 -lm
+MLX_FLAGS = -I minilibx-linux -L minilibx-linux -lmlx -lXext -lX11 -lm
 LIBFT = -L libft -lft
 
 SRC_DIR = src
 OBJ_DIR = obj
 
 SRC_FILES = main.c \
-            user_help.c \
+            print_usage.c \
             color.c \
             draw_fractol.c \
             events.c \
