@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 05:16:11 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/27 02:55:02 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 22:47:27 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static double get_decimal(char *str);
+static double	get_decimal(char *str);
 
-double ft_atof(char *str)
+double	ft_atof(char *str)
 {
-	int i;
-	int sign;
-	double result;
+	int		i;
+	int		sign;
+	double	result;
 
 	i = 0;
 	sign = 1.0;
@@ -39,11 +39,11 @@ double ft_atof(char *str)
 	return (result * sign);
 }
 
-static double get_decimal(char *str)
+static double	get_decimal(char *str)
 {
-	int i;
-	double result;
-	double div;
+	int		i;
+	double	result;
+	double	div;
 
 	i = 0;
 	result = 0.0;

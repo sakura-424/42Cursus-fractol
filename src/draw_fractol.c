@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   draw_fractol.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 03:35:21 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/27 03:15:59 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 23:12:20 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static int process_julia_pixel(t_vars *vars, int x, int y);
-static int process_mandelbrot_pixel(t_vars *vars, int x, int y);
+static int			process_julia_pixel(t_vars *vars, int x, int y);
+static int			process_mandelbrot_pixel(t_vars *vars, int x, int y);
+static t_complex	map_point(int x, int y, t_vars *vars);
 
-void calculate_fractol(t_vars *vars)
+void	calculate_fractol(t_vars *vars)
 {
-	int x;
-	int y;
-	int iter;
+	int	x;
+	int	y;
+	int	iter;
 
 	iter = 0;
 	y = 0;
@@ -39,13 +40,11 @@ void calculate_fractol(t_vars *vars)
 	}
 }
 
-void render_fractol(t_vars *vars)
+void	render_fractol(t_vars *vars)
 {
-	int x;
-	int y;
-	int iter;
-	int color;
-	t_color rgb;
+	int	x;
+	int	y;
+	int	color;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -53,16 +52,7 @@ void render_fractol(t_vars *vars)
 		x = 0;
 		while (x < WIDTH)
 		{
-			iter = vars->iterations[y * WIDTH + x];
-			if (iter == vars->max_iter)
-				color = 0x000000;
-			else
-			{
-				rgb.r = (iter * 5 + vars->color_shift) % 255;
-				rgb.g = (iter * 5 + vars->color_shift + 80) % 255;
-				rgb.b = (iter * 5 + vars->color_shift + 160) % 255;
-                color = (rgb.r << 16) | (rgb.g << 8) | rgb.b;
-			}
+			color = get_color(vars->iterations[y * WIDTH + x], vars);
 			put_color(vars, x, y, color);
 			x++;
 		}
@@ -71,14 +61,13 @@ void render_fractol(t_vars *vars)
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 }
 
-static int process_julia_pixel(t_vars *vars, int x, int y)
+static int	process_julia_pixel(t_vars *vars, int x, int y)
 {
-	t_complex z;
-	double tmp_x;
-	int iter;
+	t_complex	z;
+	double		tmp_x;
+	int			iter;
 
-	z.x = (((double)x / WIDTH) * 4.0 - 2.0) * vars->zoom + vars->shift_x;
-	z.y = (((double)y / HEIGHT) * 4.0 - 2.0) * vars->zoom + vars->shift_y;
+	z = map_point(x, y, vars);
 	iter = 0;
 	while (z.x * z.x + z.y * z.y < 4.0 && iter < vars->max_iter)
 	{
@@ -90,23 +79,23 @@ static int process_julia_pixel(t_vars *vars, int x, int y)
 	return (iter);
 }
 
-static int process_mandelbrot_pixel(t_vars *vars, int x, int y)
+static int	process_mandelbrot_pixel(t_vars *vars, int x, int y)
 {
-	t_complex z;
-	t_complex c;
-	double tmp_x;
-	int iter;
+	t_complex	z;
+	t_complex	c;
+	double		q;
+	double		tmp_x;
+	int			iter;
 
 	z.x = 0.0;
 	z.y = 0.0;
-	c.x = (((double)x / WIDTH) * 4.0 - 2.0) * vars->zoom + vars->shift_x;
-	c.y = (((double)y / HEIGHT) * 4.0 - 2.0) * vars->zoom + vars->shift_y;
+	c = map_point(x, y, vars);
 	iter = 0;
-	c.q = (c.x - 0.25) * (c.x - 0.25) + c.y * c.y;
-    if (c.q * (c.q + (c.x - 0.25)) < 0.25 * c.y * c.y)
-        return (vars->max_iter);
-    if ((c.x + 1.0) * (c.x + 1.0) + c.y * c.y < 0.0625)
-        return (vars->max_iter);
+	q = (c.x - 0.25) * (c.x - 0.25) + c.y * c.y;
+	if (q * (q + (c.x - 0.25)) < 0.25 * c.y * c.y)
+		return (vars->max_iter);
+	if ((c.x + 1.0) * (c.x + 1.0) + c.y * c.y < 0.0625)
+		return (vars->max_iter);
 	while (z.x * z.x + z.y * z.y < 4.0 && iter < vars->max_iter)
 	{
 		tmp_x = z.x * z.x - z.y * z.y + c.x;
@@ -115,4 +104,13 @@ static int process_mandelbrot_pixel(t_vars *vars, int x, int y)
 		iter++;
 	}
 	return (iter);
+}
+
+static t_complex	map_point(int x, int y, t_vars *vars)
+{
+	t_complex	p;
+
+	p.x = (((double)x / WIDTH) * 4.0 - 2.0) * vars->zoom + vars->shift_x;
+	p.y = (((double)y / HEIGHT) * 4.0 - 2.0) * vars->zoom + vars->shift_y;
+	return (p);
 }
