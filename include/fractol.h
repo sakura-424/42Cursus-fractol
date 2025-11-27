@@ -6,7 +6,7 @@
 /*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:06:01 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/11/27 21:22:55 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/11/27 21:32:58 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 
 #define WIDTH 800
 #define HEIGHT 800
